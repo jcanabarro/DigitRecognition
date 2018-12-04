@@ -56,14 +56,13 @@ if __name__ == "__main__":
     pca = PCAExtractor(all_images)
 
     for key, value in loaded_images.items():
-        loaded_images[key] = pca.transform(loaded_images[key])
-        # images_dataset[key] = ce.transform(images_dataset[key], 50, 50)
+        #loaded_images[key] = pca.transform(loaded_images[key])
+        images_dataset[key] = ce.transform(images_dataset[key], 50, 50)
     mean_mlp, mean_rf = [], []
     proba_prod, proba_sum = [], []
-
     for i in range(0, 9):
-        x_train, x_validation, x_test, y_train, y_validation, y_test = split_data(loaded_images)
-        # x_train, x_validation, x_test, y_train, y_validation, y_test = split_data(images_dataset)
+        #x_train, x_validation, x_test, y_train, y_validation, y_test = split_data(loaded_images)
+        x_train, x_validation, x_test, y_train, y_validation, y_test = split_data(images_dataset)
 
         print("AQUI")
         rf = RandomForest(x_train, y_train)
@@ -95,6 +94,15 @@ if __name__ == "__main__":
     print('mlp')
     for v in mean_mlp:
         print('%.5f' % v)
+
+    print('rf')
+    for v in proba_sum:
+        print('%.5f' % v)
+
+    print('mlp')
+    for v in proba_prod:
+        print('%.5f' % v)
+
 
     print('Random Forest:', np.mean(mean_rf), np.std(mean_rf))
     print('MLP:          ', np.mean(mean_mlp), np.std(mean_mlp))
